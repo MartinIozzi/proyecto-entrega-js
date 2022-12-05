@@ -1,8 +1,8 @@
-
+let sigue_comprando = true //QUE VALIDE QUE SIGA EN EL MENU
 let tipo_madera = prompt ("Seleccione el tipo de madera deseada: Pino, Roble, Arce, Cerezo")
 let alto = prompt ("Seleccione el alto deseado: ")
 let ancho = prompt ("Seleccione el ancho deseado: ")
-let cuotas 
+let precio_total = 0;
 
 function calcular_precio (tipo, alto, ancho){
 
@@ -40,8 +40,10 @@ function calcular_iva (precio){
 }
 
 function precio_cuotas (precio, cuotas){
-    
-    if (cuotas == 3){
+    if(cuotas == 1){
+        return precio;
+    }
+    else if (cuotas == 3){
         return precio * 1.15;
     }
     else if (cuotas == 6){
@@ -59,20 +61,44 @@ function precio_cuotas (precio, cuotas){
 
 }
 
+function compra (tipo_madera, alto, ancho){
+    let precio = calcular_precio(tipo_madera, alto, ancho)
+    let precio_iva = calcular_iva (precio)
+    
+    let cuotas = prompt ("Seleccione cantidad de cuotas (1, 3, 6, 9, 12): ")
+    let precio_final = precio_cuotas (precio_iva, cuotas);
+    let precio_mensual = precio_final / cuotas;
+    
+    precio_total = precio_total + precio_final
 
-let precio = calcular_precio(tipo_madera, alto, ancho)
-let precio_iva = calcular_iva (precio)
+    console.log (`Tipo de madera: ${tipo_madera}
+                \nMetros de alto: ${alto}
+                \nMetros de ancho: ${ancho}
+                \n\nPrecio sin iva: $${precio}
+                \nPrecio con iva: $${precio_iva}
+                \n\nCantidad de cuotas: ${cuotas}
+                \nPrecio mensual: ${precio_mensual}
+                \n\nPrecio Final: ${precio_final}`);
+}
 
-cuotas = prompt ("Seleccione cantidad de cuotas (3, 6, 9, 12): ")
-let precio_final = precio_cuotas (precio_iva, cuotas);
-let precio_mensual = precio_final / cuotas;
+
+compra (tipo_madera, alto, ancho)
+
+do{
+    let respuesta = prompt("Quiere seguir comprando? (SI/NO)")
+    if(respuesta == "Si" || respuesta == "SI" || respuesta == "si"){
+    
+        tipo_madera = prompt("Seleccione el tipo de madera deseada: Pino, Roble, Arce, Cerezo")
+        alto = prompt ("Seleccione el alto deseado: ")
+        ancho = prompt ("Seleccione el ancho deseado: ")
+    
+        compra (tipo_madera, alto, ancho);
+    }
+    else{
+        sigue_comprando = false;
+        console.log (`El precio total de las compras es de: $${precio_total}`)
+    }
+}
+while (sigue_comprando);
 
 
-console.log (`Tipo de madera: ${tipo_madera}
-            \nMetros de alto: ${alto}
-            \nMetros de ancho: ${ancho}
-            \n\nPrecio sin iva: $${precio}
-            \nPrecio con iva: $${precio_iva}
-            \n\nCantidad de cuotas: ${cuotas}
-            \nPrecio mensual: ${precio_mensual}
-            \n\nPrecio Final: ${precio_final}`);
